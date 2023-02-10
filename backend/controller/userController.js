@@ -42,11 +42,9 @@ const getAllUser = async (req, res) => {
 const login = async (req, res) => {
     const { email, password } = req.body
     try {
-        const user = await User.findOne({ where: { email: email } }, '-password');
-        console.log(user.password);
+        const user = await User.findOne({ where: { email: email } });
         if (user) {
             const isPasswordCorrect = await bcrypt.compare(password, user.hashPassword)
-            console.log(isPasswordCorrect);
             if (isPasswordCorrect) {
                 const token = jwt.sign({ email: user.email, id: user.id }, secret, { expiresIn: "1h" });
                 res.status(200).json({ user, token })

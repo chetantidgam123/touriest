@@ -7,7 +7,7 @@ const userRouter = require('./route/userRoutes');
 app.use(express.json());
 
 var corOptions = {
-    origin: "https://localhost:8081"
+    origin: true
 }
 app.use(cors(corOptions));
 
