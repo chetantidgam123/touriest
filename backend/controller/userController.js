@@ -24,7 +24,6 @@ const registerUser = async (req, res) => {
         const user = await User.create(json)
         const token = jwt.sign({ email: user.email, id: user.id }, secret, { expiresIn: "1h" });
         res.status(200).json({ user, token })
-        console.log(user);
     } catch (error) {
         res.status(500).json({ message: "something went wrong" })
         console.log(error);
