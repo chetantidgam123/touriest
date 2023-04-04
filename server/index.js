@@ -15,7 +15,7 @@ app.use(cors())
 const MONGODB_URL = "mongodb://chetantidgam1997:Chetan7756@ac-co12sa3-shard-00-00.3owxokz.mongodb.net:27017,ac-co12sa3-shard-00-01.3owxokz.mongodb.net:27017,ac-co12sa3-shard-00-02.3owxokz.mongodb.net:27017/touriest?ssl=true&replicaSet=atlas-xzsavh-shard-0&authSource=admin&retryWrites=true&w=majority"
 
 
-app.use('/users', userRouter)
+app.use('/user', userRouter)
 
 moongoose.connect(MONGODB_URL).then(() => {
     app.listen(port, () => {

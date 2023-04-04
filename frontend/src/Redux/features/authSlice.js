@@ -11,7 +11,7 @@ export const login = createAsyncThunk('auth/login', async ({ formValue, navigate
         return rejectWithValue(error.response.data)
     }
 })
-export const Register = createAsyncThunk('auth/register', async ({ formValue, navigate, toast }, { rejectWithValue }) => {
+export const register = createAsyncThunk('auth/register', async ({ formValue, navigate, toast }, { rejectWithValue }) => {
     try {
         const response = await api.SignUp(formValue);
         toast.success("Register Successfully")
@@ -39,6 +39,18 @@ const authSlice = createSlice({
             state.user = action.payload
         },
         [login.rejected]: (state, action) => {
+            state.loading = false
+            state.error = action.payload.message
+        },
+        [register.pending]: (state, action) => {
+            state.loading = true
+        },
+        [register.fulfilled]: (state, action) => {
+            state.loading = false
+            // localStorage.setItem('profile', JSON.stringify({ ...action.payload }))
+            state.user = action.payload
+        },
+        [register.rejected]: (state, action) => {
             state.loading = false
             state.error = action.payload.message
         },

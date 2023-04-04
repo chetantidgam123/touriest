@@ -2,13 +2,13 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCardFooter, MDBIcon, MDBInput, MDBSpin
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-// import { login } from '../Redux/features/authSlice'
+import { register } from '../Redux/features/authSlice'
 import { toast } from 'react-toastify'
 
 
 const initalState = {
-  firstname: '',
-  lastname: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
   confirmPassword: ''
@@ -17,7 +17,7 @@ const initalState = {
 const Register = () => {
   const [formValue, setFormValue] = useState(initalState)
   const { loading, error } = useSelector((state) => ({ ...state.auth }))
-  const { firstname, lastname, email, password, confirmPassword } = formValue
+  const { firstName, lastName, email, password, confirmPassword } = formValue
   const dispatch = useDispatch();
   const navigate = useNavigate()
   useEffect(() => {
@@ -25,9 +25,12 @@ const Register = () => {
   }, [error])
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if (email && password) {
-    //   dispatch(login({ formValue, navigate, toast }));
-    // }
+    if (password !== confirmPassword) {
+      return toast.error("Password should match")
+    }
+    if (email && password && firstName && lastName && confirmPassword) {
+      dispatch(register({ formValue, navigate, toast }));
+    }
   }
   const onInputChange = (e) => {
     let { name, value } = e.target;
@@ -41,10 +44,10 @@ const Register = () => {
         <MDBCardBody>
           <MDBValidation onSubmit={handleSubmit} noValidate className='row g-3'>
             <MDBValidationItem feedback='Please choose a First Name.' invalid className='col-md-6'>
-              <MDBInput label="First Name" type={"text"} value={firstname} name="firstname" onChange={onInputChange} required />
+              <MDBInput label="First Name" type={"text"} value={firstName} name="firstName" onChange={onInputChange} required />
             </MDBValidationItem>
             <MDBValidationItem feedback='Please choose a Last Name.' invalid className='col-md-6'>
-              <MDBInput label="Last Name" type={"text"} value={lastname} name="lastname" onChange={onInputChange} required />
+              <MDBInput label="Last Name" type={"text"} value={lastName} name="lastName" onChange={onInputChange} required />
             </MDBValidationItem>
             <MDBValidationItem feedback='Please choose a Email.' invalid className='col-md-12'>
               <MDBInput label="Email" type={"email"} value={email} name="email" onChange={onInputChange} required />
