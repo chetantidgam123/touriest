@@ -2,7 +2,7 @@ import { MDBBtn, MDBCard, MDBCardBody, MDBCardFooter, MDBIcon, MDBInput, MDBSpin
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../Redux/features/authSlice'
+import { googlSignIn, login } from '../Redux/features/authSlice'
 import { toast } from 'react-toastify'
 import GoogleLogin from 'react-google-login'
 
@@ -27,7 +27,12 @@ const Login = () => {
         }
     }
     const googleSuccess = (res) => {
-        console.log('res', res);
+        const email = res?.profileObj?.email
+        const name = res?.profileObj?.name
+        const token = res?.tokenId
+        const googleId = res?.googleId
+        const result = { email, name, token, googleId }
+        dispatch(googlSignIn({ result, navigate, toast }))
     }
     const googleFailure = (error) => {
         toast.error(error)

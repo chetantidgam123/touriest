@@ -50,4 +50,22 @@ const signin = async (req, res) => {
         console.log(error);
     }
 }
-module.exports = { signup, signin }
+
+const googleSign = async (req, res) => {
+    const { email, name, token, googleId } = req.body
+    try {
+        const oldUser = await UserModel.findOne({ email })
+        if (oldUser) {
+            const result = { _id: oldUser._id.toString(), email, name }
+            res.status(200).send({
+                result, token
+            })
+        }
+        const result = await UserModel.create({ email, name, googleId });
+        res.status(200).send({ result, token })
+    } catch (error) {
+        res.status(500).send({ code: 500, message: "Something Went Wrong" })
+        console.log(error);
+    }
+}
+module.exports = { signup, signin, googleSign }
